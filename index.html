@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Word search game</title>
+    <link rel="stylesheet" href="css/style.css"/>
+    <style>
+
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <h1 class="logo">Word search game</h1>
+
+    <section id="start" class="intro">
+        Enter Players here.
+        <div class="player-input-list">
+            <input type="text" placeholder="Enter Player 1 name" name="player1" class="js-player-input">
+        </div>
+        <button id="addPlayers" class="startGame green">Add Player</button>
+        <button id="startGame" class="startGame red">Start</button>
+    </section>
+
+    <section class="game" style="display: none">
+        <div class="sectionL">
+            <div id="ws-area" class="">
+
+            </div>
+        </div>
+        <div class="sectionR">
+            <div class="player-section">
+                <h5>Players :</h5>
+                <div class="player-list">
+
+                </div>
+            </div>
+            <div style="display: none">
+                <div class="player js-player js-player-template">
+                    <div class="playing-text">
+                        Playing!!
+                    </div>
+                    <div class="winner-text">
+                        Winner!!
+                    </div>
+                    <span class="player-words-name">Name</span>
+                    <span class="js-player-name player-name"></span>
+                    <div class="player-words-label">Words</div>
+                    <div class="js-player-name-words player-words"></div>
+                    <div class="score-label">Score
+                        <span class="js-player-name-score score"></span>
+                    </div>
+                    <button class="js-skip" data-player="">
+                        Skip
+                    </button>
+
+                </div>
+            </div>
+
+            <div class="ws-words">
+                <div class="heading">Word List</div>
+            </div>
+
+        </div>
+    </section>
+</div>
+<script src="js/jquery.min.js"></script>
+<script src="js/utility.js"></script>
+<!--We can concat below files for prod-->
+<script src="js/wordsearch_generator.js"></script>
+<script src="js/wordsearch_solver.js"></script>
+<script src="js/game.js"></script>
+
+<script type="text/javascript">
+
+</script>
+
+</body>
+</html>

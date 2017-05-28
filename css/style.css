@@ -1,0 +1,276 @@
+body {
+  font-family: helvetica neue, san-serif;
+  text-align: center;
+  background: #f9f9f9;
+}
+
+.ws-area, .ws-col {
+  -webkit-user-select: none;
+  cursor: pointer;
+}
+
+body {
+  margin: 20px;
+}
+
+.intro {
+  margin: 20px auto;
+  ws-col-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  background: #C3E5F1;
+  border-radius: 10px;
+  font-size: 20px;
+  overflow: hidden;
+  min-height: 400px;
+}
+
+.startGame {
+  color: white;
+  width: 25%;
+  height:50px;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 4px;
+  display: inline-block;
+  margin: 10px auto;
+}
+.startGame.green {
+  background-color: #12B58A;
+  border: 1px solid #12B58A;
+}
+.startGame.red {
+  background-color: #ED1C24;
+  border: 1px solid #bd040b;
+}
+input.js-player-input {
+  width: 50%;
+  display: block;
+  font-size: 14px;
+  border: 1px solid #bcc8d1;
+  border-radius: 4px;
+  padding: 10px;
+  margin: 10px auto;
+ }
+
+.game {
+  margin: 20px  auto;
+  ws-col-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  background: #C3E5F1;
+  border-radius: 10px;
+  font-size: 20px;
+  overflow: hidden;
+}
+
+@media (max-width: 740px) {
+  .ws-area {
+    float: none;
+  }
+  .startGame {
+    width: 80%;
+  }
+
+  input.js-player-input {
+    width: 80%;
+  }
+}
+
+@media (max-width: 480px) {
+  .ws-area {
+    margin-bottom: 20px;
+    padding: 5px;
+    width: 288px;
+    height: 288px;
+    font-size: 14px;
+    border-radius: 5px;
+  }
+}
+
+.ws-col {
+  margin: 1px;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  background: #fff;
+  ws-col-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  float: left;
+}
+
+@media (max-width: 480px) {
+  .ws-col {
+    width: 20px;
+    height: 20px;
+    line-height: 10px;
+  }
+}
+
+.ws-col.highlight {
+  background: #111;
+  color: #fff;
+}
+
+.player-color-red, .ws-col.found-red {
+  background: #ea2c2c;
+
+  color: #fff;
+}
+
+.player-color-green, .ws-col.found-green {
+  background: #a1d54f;
+  color: #fff;
+}
+
+.player-color-yellow, .ws-col.found-yellow {
+  background: #fff94f;
+  color: #fff;
+}
+
+.player-color-blue, .ws-col.found-blue {
+  background: #71ceef;
+  color: #fff;
+}
+
+.player-color-purple, .ws-col.found-purple {
+  background: #c928a9;
+  color: #fff;
+}
+
+#restart {
+  margin: 20px auto 0;
+  line-height: 40px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  cursor: pointer;
+  display: none;
+}
+
+.sectionL {
+  display: inline-block;
+  width: 60%;
+  vertical-align: top;
+}
+
+.sectionR {
+  display: inline-block;
+  width: 39%;
+  vertical-align: top;
+}
+
+@media (max-width: 480px) {
+  .sectionL {
+    display: block;
+    width: 90%;
+  }
+
+  .sectionR {
+    display: block;
+    width: 90%;
+  }
+
+}
+
+.ws-words {
+  display: block;
+  background: #FFF;
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 10px;
+}
+.ws-words  span {
+  padding: 15px 10px;
+  font-size: 14px;
+  color: #333333;
+  font-weight: 400;
+  width: 25%;
+  display: inline-block;
+}
+
+.ws-words  .heading {
+  text-align: center;
+  width: 100%;
+  font-weight: 600;
+}
+
+.ws-words  .strike {
+  text-decoration: line-through;
+  font-weight: 600;
+}
+
+.player-section {
+  margin-bottom: 20px;
+}
+
+.player {
+  color : #333;
+  font-size: 14px;
+  display: inline-block;
+  width: 44%;
+  min-height: 175px;
+  text-align: left;
+  border: 1px solid #000;
+  border-radius: 5px;
+  margin: 0 2px;
+  padding: 5px;
+  vertical-align: top;
+  margin: 5px;
+
+}
+.player .player-name-label{
+  font-size: 14px;
+  font-weight: 400;
+}
+.player .player-name{
+  font-size: 16px;
+  font-weight: 600;
+  margin-left: 5px;
+}
+.player .player-words-label{
+  color : #1f1db3;
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 5px;
+}
+.player .player-words{
+  color : #1f1db3;
+  font-size: 12px;
+  min-height: 70px;
+}
+.player .each-word {
+  display: inline-block;
+  padding: 5px;
+}
+.player .score{
+  color : #ffffff;
+  font-weight: 600;
+  font-size: 20px;
+  margin-left: 5px;
+  position: relative;
+
+}
+.playing {
+  box-shadow: #333 0.2em 0.2em 2em;
+}
+
+.player .player-name{
+  font-size: 16px;
+  font-weight: 600;
+  margin-left: 5px;
+}
+.winner-text {
+  display: none;
+  font-size: 20px;
+}
+.playing-text {
+  display: none;
+  color: #ffffff;
+}
+.playing .playing-text {
+  display: block !important;
+}
+.winner .winner-text {
+  display: block !important;
+}
