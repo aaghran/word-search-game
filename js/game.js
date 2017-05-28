@@ -51,11 +51,11 @@ function Game(settings) {
     this.mode = "single";
     // Default settings
     var default_settings = {
-        "gridSize": 5,
+        "gridSize": 15,
         "colors": ["red", "green", "blue", "purple", "yellow"],
-        //"words": ["army", "test", "one", "two", "three", "four","five","six", "seven", "eight","whether","travel","logic","camera","photography"],
-        "words": ["red", "green", "blue"],
-        "debug": true
+        "words": ["army", "test", "one", "two", "three", "four","five","six", "seven", "eight","whether","travel","logic","camera","photography"],
+        //"words": ["red", "green", "blue"],
+        "debug": false
     }
     this.settings = Object.merge(default_settings, settings);
 
