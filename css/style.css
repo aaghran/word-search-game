@@ -13,7 +13,7 @@ body {
   margin: 20px;
 }
 
-.intro {
+.intro, .finish {
   margin: 20px auto;
   ws-col-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   padding: 20px;
@@ -139,14 +139,6 @@ input.js-player-input {
   color: #fff;
 }
 
-#restart {
-  margin: 20px auto 0;
-  line-height: 40px;
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  cursor: pointer;
-  display: none;
-}
 
 .sectionL {
   display: inline-block;
@@ -272,5 +264,12 @@ input.js-player-input {
   display: block !important;
 }
 .winner .winner-text {
+  display: block !important;
+}
+
+.js-skip {
+  display: none;
+}
+.playing .js-skip {
   display: block !important;
 }

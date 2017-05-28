@@ -8,8 +8,6 @@ function Player(name, properties) {
     this.rounds = 0;
     this.isBot = properties.isBot ? true : false;
     this.color = properties.color ? properties.color : "blue";
-
-    //  this.initialize();
 };
 
 
@@ -21,6 +19,7 @@ Player.prototype.updateScore = function (pts) {
 Player.prototype.skipTurn = function (pts) {
     this.skips += 1;
     this.rounds += 1;
+    this.score -= pts ? pts : 0;
 };
 
 Player.prototype.updateWordsFound = function (word) {
@@ -43,11 +42,6 @@ Player.prototype.createPlayerHtml = function () {
 };
 
 function Game(settings) {
-    // this.wrapEl = wrapEl;
-    //
-    // // Add `.ws-area` to wrap element
-    // this.wrapEl.classList = "ws-area";
-
     //Words solved.
     this.players = [];
     this.playing = 0;
@@ -57,10 +51,10 @@ function Game(settings) {
     this.mode = "single";
     // Default settings
     var default_settings = {
-        "gridSize": 15,
-        "colors": ["red", "green", "blue", "purple","yellow"],
-        "words": ["army", "test", "one", "two", "three", "four","five","six", "seven", "eight","whether","travel","logic","camera","photography"],
-        //"words": ["camera","photography"],
+        "gridSize": 5,
+        "colors": ["red", "green", "blue", "purple", "yellow"],
+        //"words": ["army", "test", "one", "two", "three", "four","five","six", "seven", "eight","whether","travel","logic","camera","photography"],
+        "words": ["red", "green", "blue"],
         "debug": true
     }
     this.settings = Object.merge(default_settings, settings);
@@ -75,9 +69,9 @@ Game.prototype.initialize = function (players) {
         this.players.push(player);
 
     }
-    if(this.players.length  == 1) {
+    if (this.players.length == 1) {
         console.info("Adding a bot");
-        this.players.push(new Player("WordBot", {isBot : true}))
+        this.players.push(new Player("WordBot", {isBot: true}))
     }
     this.createBoard(this.players, this.settings);
     this.playing = 0;
@@ -87,27 +81,37 @@ Game.prototype.initialize = function (players) {
         $(".ws-" + word).addClass("strike");
         that.addScore(word);
         that.turnChange();
-        console.log("solved!!!")
+        console.info("Word Found" + word);
     });
     for (var i = 0; i < this.players.length; i++) {
         $(".player-list").append(this.players[i].createPlayerHtml());
     }
 
+    // Bind skip
+    $(".js-skip").on("click", function () {
+        that.players[that.playing].skipTurn();
+        that.turnChange();
+    });
+
     for (var i = 0; i < this.settings.words.length; i++) {
-        $(".ws-words").append("<span class='ws-"+this.settings.words[i]+"'>" + this.settings.words[i] + "</span>")
+        $(".ws-words").append("<span class='ws-" + this.settings.words[i] + "'>" + this.settings.words[i] + "</span>")
     }
 
-    $.subscribe("game/gameOver", function (ele, solved) {
+    $.subscribe("game/gameOver", function () {
+        $.unsubscribe("game/gameOver");
         that.setWinner();
         $.publish("solver/unbind");
-        $(".js-player-"+that.winner.name).addClass("playing winner");
+        $(".js-player-" + that.winner.name).addClass("playing winner");
         $(".js-player").removeClass("playing");
-        alert("Winner is " + that.winner.name);
-        //@TODO : Alert panel and restart / new game option menu
+
+        $(".finish .js-winner").html(that.winner.name);
+        $("#ws-area").hide();
+        $(".finish").show();
     });
     $(".js-player-" + this.players[this.playing].name).addClass("playing");
 };
 
+//@TODO : Player wise board? Different mode in the game?
 Game.prototype.createBoard = function (players, settings) {
     var gameAreaEl = $("#ws-area");
     this.gameobj = new WordSearch(gameAreaEl, settings);
@@ -117,21 +121,25 @@ Game.prototype.createBoard = function (players, settings) {
     $(".intro").hide();
 };
 
+// Scoring logic can be separately added.
 Game.prototype.addScore = function (word) {
     var score = word.length;
     this.players[this.playing].updateScore(score);
     this.players[this.playing].updateWordsFound(word);
 };
 
+// Set Game.playing to the next index of players.
 Game.prototype.turnChange = function () {
     var playerCount = this.players.length;
     if (this.playing == playerCount - 1)
         this.playing = 0;
     else
         this.playing++;
-    if( this.players[this.playing].isBot) {
+    this.players[this.playing].rounds++;
+    if (this.players[this.playing].isBot) {
         this.solve.solveNextWord();
     }
+    console.info("Playing now : "+ this.players[this.playing].name);
     $(".js-player").removeClass("playing");
     $(".js-player-" + this.players[this.playing].name).addClass("playing");
 
@@ -146,27 +154,54 @@ Game.prototype.setWinner = function () {
     }
 };
 
+Game.prototype.endGame = function () {
+    $.publish("game/gameOver", [this]);
+};
+
 
 (function () {
     var player = 1;
-    $("#addPlayers").click(function () {
-        player ++;
-        $(".player-input-list").append("<input type='text' placeholder='Enter Player "+player+" name' name='player"+player+"' class='js-player-input'>");
+    $("#addPlayers").on("click", function () {
+        player++;
+        $(".player-input-list").append("<input type='text' placeholder='Enter Player " + player + " name' name='player" + player + "' class='js-player-input'>");
     });
-
-    $("#startGame").click(function () {
+    var loadGame = function () {
         var game = new Game();
         var players = [];
         $(".js-player-input").each(function (key) {
             if ($(this).val()) {
-                console.log(key + ": " + $(this).val());
+                console.log("Player " + key + ": " + $(this).val());
                 players.push($(this).val());
             }
         });
-        if(players.length < 1) {
+        if (players.length < 1) {
             alert("Please enter at least one player");
             return;
         }
         game.initialize(players);
-    })
+
+    };
+    $("#startGame").click(function () {
+        loadGame();
+    });
+
+    $("#restart").on("click", function () {
+        $(".finish").hide();
+        $(".ws-area").show();
+        $(".ws-area").empty();
+        $(".player-list").empty();
+        loadGame();
+    });
+
+    $("#newGame").on("click", function () {
+        $(".player-input-list").empty();
+        $(".player-input-list").append("<input type='text' placeholder='Enter Player1 name' name='player1' class='js-player-input'>");
+        $(".intro").show();
+        $(".finish").hide();
+        $(".game").hide();
+        $(".finish").hide();
+        $(".player-list").empty();
+        $(".ws-area").empty();
+    });
+
 })();

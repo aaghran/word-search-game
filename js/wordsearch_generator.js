@@ -1,9 +1,8 @@
 /**
  * Word seach
  *
- * @param {Element} wrapWl the game's wrap element
+ * @param {Element} wrapWl
  * @param {Array} settings
- * constructor
  */
 function WordSearch(wrapEl, settings) {
     this.wrapEl = wrapEl;

@@ -60,20 +60,20 @@ WordSolve.prototype.solvePuzzle = function (event) {
                 if ($.inArray(word.toUpperCase(), this.wordsFound) == -1) {
                     this.wordsFound.push(word);
                     $('.ws-col').removeClass('highlight');
+
                     $.publish("solver/wordFound", [word]);
+                    console.info("Words Found :" + this.wordsFound.length + " - " + this.wordsToFind.length);
                 }
 
             }
         }
-        console.log(this.wordsFound);
-        console.info(this.wordsFound.length + " - " + this.wordsToFind.length);
 
         if (this.wordsFound.length == this.wordsToFind.length) {
             $.publish("game/gameOver", [this]);
         }
     }
 }
-
+// Basically find trigger solver/wordFound for a random word from the list of words not yet found.
 WordSolve.prototype.solveNextWord = function () {
     var wordsLeft = [];
     for (var i = 0; i < this.wordsToFind.length; i++) {
@@ -81,13 +81,17 @@ WordSolve.prototype.solveNextWord = function () {
             wordsLeft.push(this.wordsToFind[i]);
         }
     }
-    var word = wordsLeft[Math.rangeInt(0,wordsLeft.length-1)].toUpperCase();
-    this.wordsFound.push(word);
-    console.log(wordsLeft);
-    console.log(this.wordsFound);
-    $('.ws-col').removeClass('highlight');
-    $.publish("solver/wordFound", [word]);
-
+    var index = Math.rangeInt(0,wordsLeft.length-1);
+    var word = wordsLeft[index];
+    if(word ){
+        word = word.toUpperCase();
+        this.wordsFound.push(word);
+        $('.ws-col').removeClass('highlight');
+        $.publish("solver/wordFound", [word]);
+    }
+    if (this.wordsFound.length == this.wordsToFind.length) {
+        $.publish("game/gameOver", [this]);
+    }
 };
 
 
