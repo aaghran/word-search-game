@@ -17,20 +17,27 @@ function WordSolve(board, settings) {
 }
 
 WordSolve.prototype.bindEvents = function () {
+    var that = this;
+    // $("#ws-area").mousedown(function (event) {
+    //     event.preventDefault();
+    //     clicking = true;
+    // });
 
-    $("#ws-area").mousedown(function () {
-        clicking = true;
-    });
-
-    $("#ws-area").mouseup(function () {
+    $("#ws-area").mouseup(function (event) {
+        event.preventDefault();
         clicking = false;
         $(".ws-col").removeClass("highlight");
     })
 
     // over and out
 
-    $(".ws-col").on("mouseover", this.solvePuzzle.bind(this));
-    //$(".ws-col").on("mousedown", this.solvePuzzle.bind(this));
+    $(".ws-col").on("mousedown", function (event) {
+        event.preventDefault();
+        clicking = true;
+        that.solvePuzzle.call(this, event);
+    });
+    $(".ws-col").on("mouseover", that.solvePuzzle.bind(this));
+
 
     $.subscribe("solver/unbind", function () {
         $(".ws-col").off("mouseover");
@@ -49,7 +56,7 @@ WordSolve.prototype.solvePuzzle = function (event) {
         // Toggle highlight to box on click
         $(ele).toggleClass("highlight");
 
-        var word = $(ele).attr('data-word'), // Get word attribute from clicked box.
+        var word = $(ele).attr("data-word"), // Get word attribute from clicked box.
             wordLen = word ? word.length : undefined,
             $box = $('.ws-col[data-word="' + word + '"]'); // Get all box's with word attribute.
         if (this.wordsFound.indexOf(word) == -1) {
@@ -81,9 +88,9 @@ WordSolve.prototype.solveNextWord = function () {
             wordsLeft.push(this.wordsToFind[i]);
         }
     }
-    var index = Math.rangeInt(0,wordsLeft.length-1);
+    var index = Math.rangeInt(0, wordsLeft.length - 1);
     var word = wordsLeft[index];
-    if(word ){
+    if (word) {
         word = word.toUpperCase();
         this.wordsFound.push(word);
         $('.ws-col').removeClass('highlight');

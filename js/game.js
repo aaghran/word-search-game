@@ -158,7 +158,7 @@ Game.prototype.endGame = function () {
             "gridSize": 15,
             "colors": ["red", "green", "blue", "purple", "yellow"],
             "words": ["army", "test", "one", "two", "three", "four","five","six", "seven", "eight","whether","travel","logic","camera","photography"],
-            //"words": ["red", "green", "blue"],
+            // "words": ["red", "green", "blue"],
             "debug": false
         }
 
