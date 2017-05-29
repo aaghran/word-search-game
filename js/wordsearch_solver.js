@@ -75,7 +75,7 @@ WordSolve.prototype.solvePuzzle = function (that, event) {
             }
         }
 
-        if (this.wordsFound.length == this.wordsToFind.length) {
+        if (that.wordsFound.length == that.wordsToFind.length) {
             $.publish("game/gameOver", [this]);
         }
     }
