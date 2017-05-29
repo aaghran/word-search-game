@@ -14,3 +14,7 @@ https://aaghran.github.io/word-search-game/
 1. Enter player name.
   * Enter one player only for single player mode
 2. Scoring is based on length of word player was able to find
+
+
+To debug
+window.setCookie("debug", true, 1)
