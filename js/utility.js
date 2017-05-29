@@ -18,11 +18,33 @@ if (typeof Math.rangeInt !== "function") {
 
 if (typeof Array.toUpperCase !== "function") {
     Array.toUpperCase = function () {
-        for(var i = 0; i < this.length; i ++)
+        for (var i = 0; i < this.length; i++)
             this[i] = this[i].toUpperCase();
     };
 }
 
+if (typeof window.getCookie !== "function") {
+    window.getCookie = function (cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(";");
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == " ") c = c.substring(1);
+            if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+        }
+        return "";
+    };
+}
+
+if (typeof window.setCookie !== "function") {
+    this.setCookie = function (cname, cvalue, exdays) {
+        var d = new Date();
+        exdays = parseFloat(exdays);
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + "; " + expires + ";path=/";
+    };
+}
 
 /**
  * Merge two objects
@@ -58,3 +80,26 @@ $.each({
         jq[key].apply(jq, arguments);
     };
 });
+
+
+// function onInitFs(fs) {
+//
+//     fs.root.getFile("file:///home/aaghran/test.json", {}, function(fileEntry) {
+//
+//         // Get a File object representing the file,
+//         // then use FileReader to read its contents.
+//         fileEntry.file(function(file) {
+//             var reader = new FileReader();
+//
+//             reader.onloadend = function(e) {
+//                 console.log(this.result);
+//             };
+//
+//             reader.readAsText(file);
+//         }, function(e){console.log(e)});
+//
+//     },  function(e){console.log(e)});
+//
+// }
+//
+// window.webkitRequestFileSystem(window.TEMPORARY, 1024*1024, onInitFs, function(e){console.log(e)});

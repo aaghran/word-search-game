@@ -159,7 +159,7 @@ Game.prototype.endGame = function () {
             "colors": ["red", "green", "blue", "purple", "yellow"],
             "words": ["army", "test", "one", "two", "three", "four","five","six", "seven", "eight","whether","travel","logic","camera","photography"],
             // "words": ["red", "green", "blue"],
-            "debug": false
+            "debug": window.getCookie("debug") == "true" ? true : false,
         }
 
         var game = new Game(default_settings);
