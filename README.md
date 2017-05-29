@@ -2,6 +2,9 @@
 
 Basic word search game with single and multiplayer mode in a single browser.
 
+Demo link
+https://aaghran.github.io/word-search-game/
+
 ## Installation in local
 * Clone repository
 * Open index.html in browser
