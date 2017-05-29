@@ -34,9 +34,9 @@ WordSolve.prototype.bindEvents = function () {
     $(".ws-col").on("mousedown", function (event) {
         event.preventDefault();
         clicking = true;
-        that.solvePuzzle.call(this, event);
+        that.solvePuzzle.call(this, that, event);
     });
-    $(".ws-col").on("mouseover", that.solvePuzzle.bind(this));
+    $(".ws-col").on("mouseover", that.solvePuzzle.bind(that, this));
 
 
     $.subscribe("solver/unbind", function () {
@@ -48,7 +48,7 @@ WordSolve.prototype.bindEvents = function () {
 };
 
 
-WordSolve.prototype.solvePuzzle = function (event) {
+WordSolve.prototype.solvePuzzle = function (that, event) {
 
     if (clicking) {
         var ele = $(event)[0].target;
@@ -59,17 +59,17 @@ WordSolve.prototype.solvePuzzle = function (event) {
         var word = $(ele).attr("data-word"), // Get word attribute from clicked box.
             wordLen = word ? word.length : undefined,
             $box = $('.ws-col[data-word="' + word + '"]'); // Get all box's with word attribute.
-        if (this.wordsFound.indexOf(word) == -1) {
+        if (that.wordsFound.indexOf(word) == -1) {
             // Can be improved by having the highlighted in an array in and compare then.
             if ($('.ws-col[data-word="' + word + '"].highlight').length == wordLen) {
                 // Word is fully highlighted, remove highlight and add class found
                 $box.removeClass('highlight').addClass('found');
-                if ($.inArray(word.toUpperCase(), this.wordsFound) == -1) {
-                    this.wordsFound.push(word);
+                if ($.inArray(word.toUpperCase(), that.wordsFound) == -1) {
+                    that.wordsFound.push(word);
                     $('.ws-col').removeClass('highlight');
 
                     $.publish("solver/wordFound", [word]);
-                    console.info("Words Found :" + this.wordsFound.length + " - " + this.wordsToFind.length);
+                    console.info("Words Found :" + that.wordsFound.length + " - " + that.wordsToFind.length);
                 }
 
             }
