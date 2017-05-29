@@ -51,11 +51,7 @@ function Game(settings) {
     this.mode = "single";
     // Default settings
     var default_settings = {
-        "gridSize": 15,
-        "colors": ["red", "green", "blue", "purple", "yellow"],
-        "words": ["army", "test", "one", "two", "three", "four","five","six", "seven", "eight","whether","travel","logic","camera","photography"],
-        //"words": ["red", "green", "blue"],
-        "debug": false
+        "debug": true
     }
     this.settings = Object.merge(default_settings, settings);
 
@@ -63,16 +59,8 @@ function Game(settings) {
 
 Game.prototype.initialize = function (players) {
     var that = this;
-    this.settings
-    for (var i = 0; i <= players.length - 1; i++) {
-        var player = new Player(players[i], {color: this.settings.colors[i]});
-        this.players.push(player);
-
-    }
-    if (this.players.length == 1) {
-        console.info("Adding a bot");
-        this.players.push(new Player("WordBot", {isBot: true}))
-    }
+    this.settings;
+    this.players = players
     this.createBoard(this.players, this.settings);
     this.playing = 0;
 
@@ -166,7 +154,15 @@ Game.prototype.endGame = function () {
         $(".player-input-list").append("<input type='text' placeholder='Enter Player " + player + " name' name='player" + player + "' class='js-player-input'>");
     });
     var loadGame = function () {
-        var game = new Game();
+        var default_settings = {
+            "gridSize": 15,
+            "colors": ["red", "green", "blue", "purple", "yellow"],
+            "words": ["army", "test", "one", "two", "three", "four","five","six", "seven", "eight","whether","travel","logic","camera","photography"],
+            //"words": ["red", "green", "blue"],
+            "debug": false
+        }
+
+        var game = new Game(default_settings);
         var players = [];
         $(".js-player-input").each(function (key) {
             if ($(this).val()) {
@@ -178,7 +174,17 @@ Game.prototype.endGame = function () {
             alert("Please enter at least one player");
             return;
         }
-        game.initialize(players);
+        var playerArray = [];
+        for (var i = 0; i <= players.length - 1; i++) {
+            var player = new Player(players[i], {color: default_settings.colors[i]});
+            playerArray.push(player);
+
+        }
+        if (playerArray.length == 1) {
+            console.info("Adding a bot");
+            playerArray.push(new Player("WordBot", {isBot: true}))
+        }
+        game.initialize(playerArray);
 
     };
     $("#startGame").click(function () {
@@ -190,18 +196,12 @@ Game.prototype.endGame = function () {
         $(".ws-area").show();
         $(".ws-area").empty();
         $(".player-list").empty();
+        $(".ws-words span").remove();
         loadGame();
     });
 
     $("#newGame").on("click", function () {
-        $(".player-input-list").empty();
-        $(".player-input-list").append("<input type='text' placeholder='Enter Player1 name' name='player1' class='js-player-input'>");
-        $(".intro").show();
-        $(".finish").hide();
-        $(".game").hide();
-        $(".finish").hide();
-        $(".player-list").empty();
-        $(".ws-area").empty();
+        window.location.reload();
     });
 
 })();
